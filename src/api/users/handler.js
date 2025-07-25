@@ -28,7 +28,13 @@ class UsersHandler {
 
   getUserHandler = async (request) => {
     const { id: userId } = request.auth.credentials;
-    const userDetail = await this._service.getProfileUser(userId);
+    const profileDetail = await this._service.getProfileUser(userId);
+    const lostAndFoundCount = await this._service.getCountMyLostAndFoundItems(userId);
+
+    const userDetail = {
+      ...profileDetail,
+      ...lostAndFoundCount,
+    };
 
     return {
       status: 'success',

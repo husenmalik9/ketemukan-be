@@ -98,6 +98,37 @@ class UsersService {
     return result.rows[0];
   }
 
+  async getCountMyLostAndFoundItems(userId) {
+    const queryFound = {
+      text: `SELECT COUNT(*)::int AS count FROM found_items WHERE user_id = $1`,
+      values: [userId],
+    };
+    const queryLost = {
+      text: `SELECT COUNT(*)::int AS count FROM lost_items WHERE user_id = $1`,
+      values: [userId],
+    };
+
+    const resultFound = await this._pool.query(queryFound).catch((error) => {
+      console.error(error);
+      throw new ServerError('Internal server error');
+    });
+    const resultLost = await this._pool.query(queryLost).catch((error) => {
+      console.error(error);
+      throw new ServerError('Internal server error');
+    });
+
+    if (!resultFound.rows.length) {
+      throw new NotFoundError('User tidak ditemukan');
+    }
+
+    const lostAndFoundCount = {
+      foundCount: resultFound.rows[0].count,
+      lostCount: resultLost.rows[0].count,
+    };
+
+    return lostAndFoundCount;
+  }
+
   async getMyLostItems(userId) {
     const query = {
       text: `SELECT 
