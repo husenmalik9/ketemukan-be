@@ -20,16 +20,7 @@ class UsersService {
 
     const query = {
       text: 'INSERT INTO users(id, username, password, fullname, created_at, updated_at, points, location_id) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id',
-      values: [
-        id,
-        username,
-        hashedPassword,
-        fullname,
-        createdAt,
-        updatedAt,
-        points,
-        locationId,
-      ],
+      values: [id, username, hashedPassword, fullname, createdAt, updatedAt, points, locationId],
     };
 
     const result = await this._pool.query(query).catch((error) => {
@@ -56,9 +47,7 @@ class UsersService {
     });
 
     if (result.rows.length > 0) {
-      throw new InvariantError(
-        'Gagal menambahkan user. Username sudah digunakan.'
-      );
+      throw new InvariantError('Gagal menambahkan user. Username sudah digunakan.');
     }
   }
 
@@ -121,6 +110,7 @@ class UsersService {
               lost_items.status,
               lost_items.longitude,
               lost_items.latitude,
+              lost_items.created_at,
               
               categories.name as category_name,
               locations.name as location_name
@@ -158,6 +148,7 @@ class UsersService {
               found_items.status,
               found_items.longitude,
               found_items.latitude,
+              found_items.created_at,
               
               categories.name as category_name,
               locations.name as location_name

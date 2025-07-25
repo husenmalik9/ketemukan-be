@@ -23,6 +23,14 @@ const routes = (handler) => [
 
   {
     method: 'GET',
+    path: '/my/items',
+    handler: handler.getMyItemsHandler,
+    options: {
+      auth: 'ketemukan_jwt',
+    },
+  },
+  {
+    method: 'GET',
     path: '/my/lost-items',
     handler: handler.getMyLostItemsHandler,
     options: {
