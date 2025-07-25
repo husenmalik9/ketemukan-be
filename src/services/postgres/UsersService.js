@@ -129,10 +129,6 @@ class UsersService {
       throw new ServerError('Internal server error');
     });
 
-    if (!result.rows.length) {
-      throw new InvariantError('Items tidak ditemukan');
-    }
-
     return result.rows;
   }
 
@@ -166,10 +162,6 @@ class UsersService {
       console.error(error);
       throw new ServerError('Internal server error');
     });
-
-    if (!result.rows.length) {
-      throw new InvariantError('Items tidak ditemukan');
-    }
 
     return result.rows;
   }
