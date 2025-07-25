@@ -216,10 +216,6 @@ class UsersService {
       throw new ServerError('Internal server error');
     });
 
-    if (!result.rows.length) {
-      throw new InvariantError('Achievement tidak ditemukan');
-    }
-
     return result.rows;
   }
 }
