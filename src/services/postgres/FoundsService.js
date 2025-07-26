@@ -183,7 +183,9 @@ class FoundsService {
                 users.picture_url
             FROM found_comments
             LEFT JOIN users ON found_comments.user_id = users.id
-            WHERE found_comments.found_item_id = $1`,
+            WHERE found_comments.found_item_id = $1
+            ORDER BY found_comments.created_at DESC
+            `,
       values: [foundItemId],
     };
 

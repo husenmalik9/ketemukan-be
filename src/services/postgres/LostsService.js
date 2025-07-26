@@ -173,7 +173,8 @@ class LostsService {
                 users.picture_url
             FROM lost_comments
             LEFT JOIN users ON lost_comments.user_id = users.id
-            WHERE lost_comments.lost_item_id = $1`,
+            WHERE lost_comments.lost_item_id = $1
+            ORDER BY lost_comments.created_at DESC`,
       values: [lostItemId],
     };
 
