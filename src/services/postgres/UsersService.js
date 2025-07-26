@@ -77,6 +77,7 @@ class UsersService {
                 users.picture_url,
                 users.points,
                 users.created_at,
+                users.location_id,
 
                 locations.name AS location_name
 
