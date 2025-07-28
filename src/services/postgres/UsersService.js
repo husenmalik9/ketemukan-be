@@ -252,7 +252,14 @@ class UsersService {
     });
 
     const queryLastLostItem = {
-      text: `SELECT * FROM lost_items ORDER BY created_at DESC LIMIT 2`,
+      text: `SELECT 
+                * ,
+                categories.name as category_name,
+                locations.name as location_name
+            FROM lost_items 
+            LEFT JOIN categories ON lost_items.category_id = categories.id
+            LEFT JOIN locations ON lost_items.location_id = locations.id 
+            ORDER BY lost_items.created_at DESC LIMIT 2`,
     };
     const lastLostItem = await this._pool.query(queryLastLostItem).catch((error) => {
       console.error(error);
@@ -260,7 +267,14 @@ class UsersService {
     });
 
     const queryLastFoundItem = {
-      text: `SELECT * FROM found_items ORDER BY created_at DESC LIMIT 2`,
+      text: `SELECT 
+              *,
+              categories.name as category_name,
+              locations.name as location_name
+            FROM found_items 
+            LEFT JOIN categories ON found_items.category_id = categories.id
+            LEFT JOIN locations ON found_items.location_id = locations.id 
+            ORDER BY found_items.created_at DESC LIMIT 2`,
     };
     const lastFoundItem = await this._pool.query(queryLastFoundItem).catch((error) => {
       console.error(error);
