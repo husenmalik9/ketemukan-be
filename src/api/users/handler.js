@@ -110,6 +110,17 @@ class UsersHandler {
       },
     };
   };
+
+  getHomeHandler = async () => {
+    const home = await this._service.getHome();
+
+    return {
+      status: 'success',
+      data: {
+        home,
+      },
+    };
+  };
 }
 
 module.exports = UsersHandler;

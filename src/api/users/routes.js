@@ -53,6 +53,12 @@ const routes = (handler) => [
       auth: 'ketemukan_jwt',
     },
   },
+
+  {
+    method: 'GET',
+    path: '/home',
+    handler: handler.getHomeHandler,
+  },
 ];
 
 module.exports = routes;

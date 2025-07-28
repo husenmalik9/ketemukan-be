@@ -233,6 +233,76 @@ class UsersService {
 
     return result.rows;
   }
+
+  async getHome() {
+    const queryMostLostedLocations = {
+      text: `SELECT 
+              location_id, 
+              locations.name AS location_name, 
+              COUNT(*) AS total
+            FROM lost_items
+            LEFT JOIN locations ON lost_items.location_id = locations.id
+            GROUP BY location_id, locations.name
+            ORDER BY total DESC
+            LIMIT 3`,
+    };
+    const mostLostedLocations = await this._pool.query(queryMostLostedLocations).catch((error) => {
+      console.error(error);
+      throw new ServerError('Internal server error');
+    });
+
+    const queryLastLostItem = {
+      text: `SELECT * FROM lost_items ORDER BY created_at DESC LIMIT 2`,
+    };
+    const lastLostItem = await this._pool.query(queryLastLostItem).catch((error) => {
+      console.error(error);
+      throw new ServerError('Internal server error');
+    });
+
+    const queryLastFoundItem = {
+      text: `SELECT * FROM found_items ORDER BY created_at DESC LIMIT 2`,
+    };
+    const lastFoundItem = await this._pool.query(queryLastFoundItem).catch((error) => {
+      console.error(error);
+      throw new ServerError('Internal server error');
+    });
+
+    const queryMostLostedCategories = {
+      text: `SELECT 
+              category_id, 
+              categories.name AS category_name, 
+              COUNT(*) AS total
+            FROM lost_items
+            LEFT JOIN categories ON lost_items.category_id = categories.id
+            GROUP BY category_id, categories.name
+            ORDER BY total DESC
+            LIMIT 3`,
+    };
+    const mostLostedCategories = await this._pool
+      .query(queryMostLostedCategories)
+      .catch((error) => {
+        console.error(error);
+        throw new ServerError('Internal server error');
+      });
+
+    const queryTopContributor = {
+      text: `SELECT * FROM users ORDER BY points DESC LIMIT 3`,
+    };
+    const topContributor = await this._pool.query(queryTopContributor).catch((error) => {
+      console.error(error);
+      throw new ServerError('Internal server error');
+    });
+
+    const result = {
+      lastLostItem: lastLostItem.rows,
+      lastFoundItem: lastFoundItem.rows,
+      mostLostedLocations: mostLostedLocations.rows,
+      mostLostedCategories: mostLostedCategories.rows,
+      topContributor: topContributor.rows,
+    };
+
+    return result;
+  }
 }
 
 module.exports = UsersService;
