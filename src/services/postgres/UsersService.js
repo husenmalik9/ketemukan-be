@@ -253,7 +253,16 @@ class UsersService {
 
     const queryLastLostItem = {
       text: `SELECT 
-                * ,
+              lost_items.id,
+              lost_items.title,
+              lost_items.short_desc,
+              lost_items.description,                
+              lost_items.picture_url, 
+              lost_items.lost_date,                                
+              lost_items.status,
+              lost_items.longitude,
+              lost_items.latitude,
+              lost_items.created_at,
                 categories.name as category_name,
                 locations.name as location_name
             FROM lost_items 
@@ -268,9 +277,18 @@ class UsersService {
 
     const queryLastFoundItem = {
       text: `SELECT 
-              *,
-              categories.name as category_name,
-              locations.name as location_name
+              found_items.id,
+              found_items.title,
+              found_items.short_desc,
+              found_items.description,                
+              found_items.picture_url, 
+              found_items.found_date,                                
+              found_items.status,
+              found_items.longitude,
+              found_items.latitude,
+              found_items.created_at,
+                categories.name as category_name,
+                locations.name as location_name
             FROM found_items 
             LEFT JOIN categories ON found_items.category_id = categories.id
             LEFT JOIN locations ON found_items.location_id = locations.id 
