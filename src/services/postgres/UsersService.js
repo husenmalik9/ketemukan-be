@@ -293,9 +293,12 @@ class UsersService {
       throw new ServerError('Internal server error');
     });
 
+    const myItems = [...lastLostItem.rows, ...lastFoundItem.rows].sort(
+      (a, b) => new Date(b.created_at) - new Date(a.created_at)
+    );
+
     const result = {
-      lastLostItem: lastLostItem.rows,
-      lastFoundItem: lastFoundItem.rows,
+      myItems,
       mostLostedLocations: mostLostedLocations.rows,
       mostLostedCategories: mostLostedCategories.rows,
       topContributor: topContributor.rows,
