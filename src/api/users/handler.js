@@ -58,8 +58,10 @@ class UsersHandler {
 
   getMyItemsHandler = async (request) => {
     const { id: userId } = request.auth.credentials;
-    const myLostItems = await this._service.getMyLostItems(userId);
-    const myFoundItems = await this._service.getMyFoundItems(userId);
+
+    const { title = '' } = request.query;
+    const myLostItems = await this._service.getMyLostItems(userId, title);
+    const myFoundItems = await this._service.getMyFoundItems(userId, title);
 
     const myItems = [...myLostItems, ...myFoundItems].sort(
       (a, b) => new Date(b.created_at) - new Date(a.created_at)

@@ -130,7 +130,12 @@ class UsersService {
     return lostAndFoundCount;
   }
 
-  async getMyLostItems(userId) {
+  async getMyLostItems(userId, title) {
+    let condition = '';
+    if (title) {
+      condition = `AND lost_items.title ILIKE '%${title}%'`;
+    }
+
     const query = {
       text: `SELECT 
               lost_items.id,
@@ -152,7 +157,9 @@ class UsersService {
               LEFT JOIN categories ON lost_items.category_id = categories.id
               LEFT JOIN locations ON lost_items.location_id = locations.id     
               
-              WHERE lost_items.user_id = $1;`,
+              WHERE lost_items.user_id = $1
+              ${condition}
+              `,
       values: [userId],
     };
 
@@ -164,7 +171,12 @@ class UsersService {
     return result.rows;
   }
 
-  async getMyFoundItems(userId) {
+  async getMyFoundItems(userId, title) {
+    let condition = '';
+    if (title) {
+      condition = `AND found_items.title ILIKE '%${title}%'`;
+    }
+
     const query = {
       text: `SELECT 
               found_items.id,
@@ -186,7 +198,9 @@ class UsersService {
               LEFT JOIN categories ON found_items.category_id = categories.id
               LEFT JOIN locations ON found_items.location_id = locations.id     
               
-              WHERE found_items.user_id = $1;`,
+              WHERE found_items.user_id = $1
+              ${condition}
+              `,
       values: [userId],
     };
 
