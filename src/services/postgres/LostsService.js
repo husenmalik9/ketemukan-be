@@ -94,7 +94,9 @@ class LostsService {
     }
   }
 
-  async getLosts() {
+  async getLosts(title) {
+    const condition = title ? `WHERE lost_items.title ILIKE '%${title}%'` : '';
+
     const query = {
       text: `SELECT 
                 lost_items.id,
@@ -109,7 +111,9 @@ class LostsService {
                 locations.name AS location_name
               FROM lost_items
               LEFT JOIN categories ON lost_items.category_id = categories.id
-              LEFT JOIN locations ON lost_items.location_id = locations.id;`,
+              LEFT JOIN locations ON lost_items.location_id = locations.id
+              ${condition}
+              `,
     };
 
     const result = await this._pool.query(query).catch((error) => {
