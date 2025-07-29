@@ -1,8 +1,7 @@
 const { Pool } = require('pg');
 const { nanoid } = require('nanoid');
+
 const ServerError = require('../../exceptions/ServerError');
-const InvariantError = require('../../exceptions/InvariantError');
-const NotFoundError = require('../../exceptions/NotFoundError');
 
 class AchievementService {
   constructor() {
@@ -42,23 +41,19 @@ class AchievementService {
       text: `SELECT COUNT(*)::int AS count FROM found_comments WHERE user_id = $1`,
       values: [userId],
     };
-    const { rows: foundComments } = await this._pool
-      .query(queryFoundComments)
-      .catch((error) => {
-        console.error(error);
-        throw new ServerError('Internal server error');
-      });
+    const { rows: foundComments } = await this._pool.query(queryFoundComments).catch((error) => {
+      console.error(error);
+      throw new ServerError('Internal server error');
+    });
 
     const queryLostComments = {
       text: `SELECT COUNT(*)::int AS count FROM lost_comments WHERE user_id = $1`,
       values: [userId],
     };
-    const { rows: lostComments } = await this._pool
-      .query(queryLostComments)
-      .catch((error) => {
-        console.error(error);
-        throw new ServerError('Internal server error');
-      });
+    const { rows: lostComments } = await this._pool.query(queryLostComments).catch((error) => {
+      console.error(error);
+      throw new ServerError('Internal server error');
+    });
 
     const totalComment = lostComments[0].count + foundComments[0].count;
 
@@ -72,27 +67,21 @@ class AchievementService {
     const query = {
       text: 'SELECT id, name, condition_type, condition_value FROM achievements',
     };
-    const { rows: allAchievements } = await this._pool
-      .query(query)
-      .catch((error) => {
-        console.error(error);
-        throw new ServerError('Internal server error');
-      });
+    const { rows: allAchievements } = await this._pool.query(query).catch((error) => {
+      console.error(error);
+      throw new ServerError('Internal server error');
+    });
 
     const query2 = {
       text: 'SELECT achievement_id FROM user_achievements WHERE user_id = $1',
       values: [userId],
     };
-    const { rows: userAchievements } = await this._pool
-      .query(query2)
-      .catch((error) => {
-        console.error(error);
-        throw new ServerError('Internal server error');
-      });
+    const { rows: userAchievements } = await this._pool.query(query2).catch((error) => {
+      console.error(error);
+      throw new ServerError('Internal server error');
+    });
 
-    const userAchievementIds = userAchievements.map(
-      (row) => row.achievement_id
-    );
+    const userAchievementIds = userAchievements.map((row) => row.achievement_id);
 
     for (const achievement of allAchievements) {
       if (userAchievementIds.includes(achievement.id)) continue;
@@ -101,16 +90,10 @@ class AchievementService {
 
       switch (achievement.condition_type) {
         case 'lost_items':
-          userCount = await this.countUserLostOrFoundItems(
-            'lost_items',
-            userId
-          );
+          userCount = await this.countUserLostOrFoundItems('lost_items', userId);
           break;
         case 'found_items':
-          userCount = await this.countUserLostOrFoundItems(
-            'found_items',
-            userId
-          );
+          userCount = await this.countUserLostOrFoundItems('found_items', userId);
           break;
         case 'comments':
           userCount = await this.countUserComments(userId);

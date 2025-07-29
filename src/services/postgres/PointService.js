@@ -1,4 +1,5 @@
 const { Pool } = require('pg');
+
 const InvariantError = require('../../exceptions/InvariantError');
 const ServerError = require('../../exceptions/ServerError');
 

@@ -1,8 +1,9 @@
 const { Pool } = require('pg');
-const ServerError = require('../../exceptions/ServerError');
-const InvariantError = require('../../exceptions/InvariantError');
-const AuthenticationError = require('../../exceptions/AuthenticationError');
 const bcrypt = require('bcrypt');
+
+const AuthenticationError = require('../../exceptions/AuthenticationError');
+const InvariantError = require('../../exceptions/InvariantError');
+const ServerError = require('../../exceptions/ServerError');
 
 class AuthenticationsService {
   constructor() {

@@ -1,8 +1,9 @@
 const { Pool } = require('pg');
 const { nanoid } = require('nanoid');
-const ServerError = require('../../exceptions/ServerError');
+
 const InvariantError = require('../../exceptions/InvariantError');
 const NotFoundError = require('../../exceptions/NotFoundError');
+const ServerError = require('../../exceptions/ServerError');
 
 class LostsService {
   constructor() {
