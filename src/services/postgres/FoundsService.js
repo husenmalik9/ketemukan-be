@@ -104,7 +104,9 @@ class FoundsService {
     }
   }
 
-  async getFounds() {
+  async getFounds(title) {
+    const condition = title ? `WHERE found_items.title ILIKE '%${title}%'` : '';
+
     const query = {
       text: `SELECT 
                 found_items.id,
@@ -119,7 +121,9 @@ class FoundsService {
                 locations.name AS location_name
               FROM found_items
               LEFT JOIN categories ON found_items.category_id = categories.id
-              LEFT JOIN locations ON found_items.location_id = locations.id;`,
+              LEFT JOIN locations ON found_items.location_id = locations.id
+              ${condition}
+              `,
     };
 
     const result = await this._pool.query(query).catch((error) => {
@@ -183,7 +187,9 @@ class FoundsService {
                 users.picture_url
             FROM found_comments
             LEFT JOIN users ON found_comments.user_id = users.id
-            WHERE found_comments.found_item_id = $1`,
+            WHERE found_comments.found_item_id = $1
+            ORDER BY found_comments.created_at DESC
+            `,
       values: [foundItemId],
     };
 

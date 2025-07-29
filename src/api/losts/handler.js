@@ -52,8 +52,11 @@ class LostsHandler {
     return response;
   };
 
-  getLostsHandler = async () => {
-    const losts = await this._service.getLosts();
+  getLostsHandler = async (request) => {
+    const { title = '' } = request.query;
+
+    const losts = await this._service.getLosts(title);
+
     return {
       status: 'success',
       data: {

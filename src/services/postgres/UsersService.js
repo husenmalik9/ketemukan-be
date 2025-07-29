@@ -20,16 +20,7 @@ class UsersService {
 
     const query = {
       text: 'INSERT INTO users(id, username, password, fullname, created_at, updated_at, points, location_id) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id',
-      values: [
-        id,
-        username,
-        hashedPassword,
-        fullname,
-        createdAt,
-        updatedAt,
-        points,
-        locationId,
-      ],
+      values: [id, username, hashedPassword, fullname, createdAt, updatedAt, points, locationId],
     };
 
     const result = await this._pool.query(query).catch((error) => {
@@ -56,9 +47,7 @@ class UsersService {
     });
 
     if (result.rows.length > 0) {
-      throw new InvariantError(
-        'Gagal menambahkan user. Username sudah digunakan.'
-      );
+      throw new InvariantError('Gagal menambahkan user. Username sudah digunakan.');
     }
   }
 
@@ -88,6 +77,7 @@ class UsersService {
                 users.picture_url,
                 users.points,
                 users.created_at,
+                users.location_id,
 
                 locations.name AS location_name
 
@@ -109,7 +99,43 @@ class UsersService {
     return result.rows[0];
   }
 
-  async getMyLostItems(userId) {
+  async getCountMyLostAndFoundItems(userId) {
+    const queryFound = {
+      text: `SELECT COUNT(*)::int AS count FROM found_items WHERE user_id = $1`,
+      values: [userId],
+    };
+    const queryLost = {
+      text: `SELECT COUNT(*)::int AS count FROM lost_items WHERE user_id = $1`,
+      values: [userId],
+    };
+
+    const resultFound = await this._pool.query(queryFound).catch((error) => {
+      console.error(error);
+      throw new ServerError('Internal server error');
+    });
+    const resultLost = await this._pool.query(queryLost).catch((error) => {
+      console.error(error);
+      throw new ServerError('Internal server error');
+    });
+
+    if (!resultFound.rows.length) {
+      throw new NotFoundError('User tidak ditemukan');
+    }
+
+    const lostAndFoundCount = {
+      foundCount: resultFound.rows[0].count,
+      lostCount: resultLost.rows[0].count,
+    };
+
+    return lostAndFoundCount;
+  }
+
+  async getMyLostItems(userId, title) {
+    let condition = '';
+    if (title) {
+      condition = `AND lost_items.title ILIKE '%${title}%'`;
+    }
+
     const query = {
       text: `SELECT 
               lost_items.id,
@@ -121,6 +147,7 @@ class UsersService {
               lost_items.status,
               lost_items.longitude,
               lost_items.latitude,
+              lost_items.created_at,
               
               categories.name as category_name,
               locations.name as location_name
@@ -130,7 +157,9 @@ class UsersService {
               LEFT JOIN categories ON lost_items.category_id = categories.id
               LEFT JOIN locations ON lost_items.location_id = locations.id     
               
-              WHERE lost_items.user_id = $1;`,
+              WHERE lost_items.user_id = $1
+              ${condition}
+              `,
       values: [userId],
     };
 
@@ -139,14 +168,15 @@ class UsersService {
       throw new ServerError('Internal server error');
     });
 
-    if (!result.rows.length) {
-      throw new InvariantError('Items tidak ditemukan');
-    }
-
     return result.rows;
   }
 
-  async getMyFoundItems(userId) {
+  async getMyFoundItems(userId, title) {
+    let condition = '';
+    if (title) {
+      condition = `AND found_items.title ILIKE '%${title}%'`;
+    }
+
     const query = {
       text: `SELECT 
               found_items.id,
@@ -158,6 +188,7 @@ class UsersService {
               found_items.status,
               found_items.longitude,
               found_items.latitude,
+              found_items.created_at,
               
               categories.name as category_name,
               locations.name as location_name
@@ -167,7 +198,9 @@ class UsersService {
               LEFT JOIN categories ON found_items.category_id = categories.id
               LEFT JOIN locations ON found_items.location_id = locations.id     
               
-              WHERE found_items.user_id = $1;`,
+              WHERE found_items.user_id = $1
+              ${condition}
+              `,
       values: [userId],
     };
 
@@ -175,10 +208,6 @@ class UsersService {
       console.error(error);
       throw new ServerError('Internal server error');
     });
-
-    if (!result.rows.length) {
-      throw new InvariantError('Items tidak ditemukan');
-    }
 
     return result.rows;
   }
@@ -202,11 +231,112 @@ class UsersService {
       throw new ServerError('Internal server error');
     });
 
-    if (!result.rows.length) {
-      throw new InvariantError('Achievement tidak ditemukan');
-    }
-
     return result.rows;
+  }
+
+  async getHome() {
+    const queryMostLostedLocations = {
+      text: `SELECT 
+              location_id, 
+              locations.name AS location_name, 
+              COUNT(*) AS total
+            FROM lost_items
+            LEFT JOIN locations ON lost_items.location_id = locations.id
+            GROUP BY location_id, locations.name
+            ORDER BY total DESC
+            LIMIT 3`,
+    };
+    const mostLostedLocations = await this._pool.query(queryMostLostedLocations).catch((error) => {
+      console.error(error);
+      throw new ServerError('Internal server error');
+    });
+
+    const queryLastLostItem = {
+      text: `SELECT 
+              lost_items.id,
+              lost_items.title,
+              lost_items.short_desc,
+              lost_items.description,                
+              lost_items.picture_url, 
+              lost_items.lost_date,                                
+              lost_items.status,
+              lost_items.longitude,
+              lost_items.latitude,
+              lost_items.created_at,
+                categories.name as category_name,
+                locations.name as location_name
+            FROM lost_items 
+            LEFT JOIN categories ON lost_items.category_id = categories.id
+            LEFT JOIN locations ON lost_items.location_id = locations.id 
+            ORDER BY lost_items.created_at DESC LIMIT 2`,
+    };
+    const lastLostItem = await this._pool.query(queryLastLostItem).catch((error) => {
+      console.error(error);
+      throw new ServerError('Internal server error');
+    });
+
+    const queryLastFoundItem = {
+      text: `SELECT 
+              found_items.id,
+              found_items.title,
+              found_items.short_desc,
+              found_items.description,                
+              found_items.picture_url, 
+              found_items.found_date,                                
+              found_items.status,
+              found_items.longitude,
+              found_items.latitude,
+              found_items.created_at,
+                categories.name as category_name,
+                locations.name as location_name
+            FROM found_items 
+            LEFT JOIN categories ON found_items.category_id = categories.id
+            LEFT JOIN locations ON found_items.location_id = locations.id 
+            ORDER BY found_items.created_at DESC LIMIT 2`,
+    };
+    const lastFoundItem = await this._pool.query(queryLastFoundItem).catch((error) => {
+      console.error(error);
+      throw new ServerError('Internal server error');
+    });
+
+    const queryMostLostedCategories = {
+      text: `SELECT 
+              category_id, 
+              categories.name AS category_name, 
+              COUNT(*) AS total
+            FROM lost_items
+            LEFT JOIN categories ON lost_items.category_id = categories.id
+            GROUP BY category_id, categories.name
+            ORDER BY total DESC
+            LIMIT 3`,
+    };
+    const mostLostedCategories = await this._pool
+      .query(queryMostLostedCategories)
+      .catch((error) => {
+        console.error(error);
+        throw new ServerError('Internal server error');
+      });
+
+    const queryTopContributor = {
+      text: `SELECT * FROM users ORDER BY points DESC LIMIT 3`,
+    };
+    const topContributor = await this._pool.query(queryTopContributor).catch((error) => {
+      console.error(error);
+      throw new ServerError('Internal server error');
+    });
+
+    const myItems = [...lastLostItem.rows, ...lastFoundItem.rows].sort(
+      (a, b) => new Date(b.created_at) - new Date(a.created_at)
+    );
+
+    const result = {
+      myItems,
+      mostLostedLocations: mostLostedLocations.rows,
+      mostLostedCategories: mostLostedCategories.rows,
+      topContributor: topContributor.rows,
+    };
+
+    return result;
   }
 }
 

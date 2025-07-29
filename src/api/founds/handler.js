@@ -52,8 +52,11 @@ class FoundsHandler {
     return response;
   };
 
-  getFoundsHandler = async () => {
-    const founds = await this._service.getFounds();
+  getFoundsHandler = async (request) => {
+    const { title = '' } = request.query;
+
+    const founds = await this._service.getFounds(title);
+
     return {
       status: 'success',
       data: {

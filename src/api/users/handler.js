@@ -28,7 +28,13 @@ class UsersHandler {
 
   getUserHandler = async (request) => {
     const { id: userId } = request.auth.credentials;
-    const userDetail = await this._service.getProfileUser(userId);
+    const profileDetail = await this._service.getProfileUser(userId);
+    const lostAndFoundCount = await this._service.getCountMyLostAndFoundItems(userId);
+
+    const userDetail = {
+      ...profileDetail,
+      ...lostAndFoundCount,
+    };
 
     return {
       status: 'success',
@@ -47,6 +53,25 @@ class UsersHandler {
     return {
       status: 'success',
       message: 'User berhasil diperbarui',
+    };
+  };
+
+  getMyItemsHandler = async (request) => {
+    const { id: userId } = request.auth.credentials;
+
+    const { title = '' } = request.query;
+    const myLostItems = await this._service.getMyLostItems(userId, title);
+    const myFoundItems = await this._service.getMyFoundItems(userId, title);
+
+    const myItems = [...myLostItems, ...myFoundItems].sort(
+      (a, b) => new Date(b.created_at) - new Date(a.created_at)
+    );
+
+    return {
+      status: 'success',
+      data: {
+        myItems,
+      },
     };
   };
 
@@ -82,6 +107,17 @@ class UsersHandler {
       status: 'success',
       data: {
         myAchievements,
+      },
+    };
+  };
+
+  getHomeHandler = async () => {
+    const home = await this._service.getHome();
+
+    return {
+      status: 'success',
+      data: {
+        home,
       },
     };
   };
