@@ -1,7 +1,8 @@
 const { Pool } = require('pg');
-const ServerError = require('../../exceptions/ServerError');
-const InvariantError = require('../../exceptions/InvariantError');
 const { nanoid } = require('nanoid');
+
+const InvariantError = require('../../exceptions/InvariantError');
+const ServerError = require('../../exceptions/ServerError');
 
 class CategoriesService {
   constructor() {
@@ -9,12 +10,10 @@ class CategoriesService {
   }
 
   async getCategories() {
-    const result = await this._pool
-      .query('SELECT id, name FROM categories')
-      .catch((error) => {
-        console.error(error);
-        throw new ServerError('Internal server error');
-      });
+    const result = await this._pool.query('SELECT id, name FROM categories').catch((error) => {
+      console.error(error);
+      throw new ServerError('Internal server error');
+    });
 
     return result.rows;
   }

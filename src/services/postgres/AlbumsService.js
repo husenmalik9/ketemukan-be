@@ -1,7 +1,7 @@
 const { Pool } = require('pg');
 const { nanoid } = require('nanoid');
+
 const InvariantError = require('../../exceptions/InvariantError');
-const NotFoundError = require('../../exceptions/NotFoundError');
 const ServerError = require('../../exceptions/ServerError');
 
 class AlbumsService {
@@ -11,12 +11,10 @@ class AlbumsService {
   }
 
   async getAlbums() {
-    const result = await this._pool
-      .query('SELECT * FROM albums')
-      .catch((error) => {
-        console.error(error);
-        throw new ServerError('Internal server error');
-      });
+    const result = await this._pool.query('SELECT * FROM albums').catch((error) => {
+      console.error(error);
+      throw new ServerError('Internal server error');
+    });
 
     return result.rows;
   }
