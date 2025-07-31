@@ -21,6 +21,10 @@
     - [5. Jalankan migrasi](#5-jalankan-migrasi)
     - [6. Jalankan server via start atau development](#6-jalankan-server-via-start-atau-development)
   - [🔐 ENV](#-env)
+  - [🧰 Tech Stack / Dependencies](#-tech-stack--dependencies)
+  - [🛎️ Tools](#️-tools)
+  - [👨‍💻 Pengembang](#-pengembang)
+  - [🖥️ Assistant](#️-assistant)
 
 ---
 
@@ -103,11 +107,6 @@ Deployment menggunakan [railway](https://railway.com/) free tier
 │   └── validator/           # Validasi input dari pengguna
 ```
 
-![Status](https://img.shields.io/badge/status-active-brightgreen)
-![Node.js](https://img.shields.io/badge/node.js-v18.17.0-blue)
-![License](https://img.shields.io/badge/license-MIT-yellow)
-[![Status](https://img.shields.io/badge/status-active-brightgreen)](https://example.com)
-
 ## 🛠️ Instalasi & Konfigurasi
 
 <details>
@@ -163,6 +162,9 @@ npm run dev
 
 Buat file .env dengan format sebagai berikut:
 
+<details>
+<summary>.env (click me)</summary>
+
 ```
 # server configuration
 HOST=
@@ -184,3 +186,34 @@ CLOUDINARY_API_KEY=
 CLOUDINARY_API_SECRET=
 
 ```
+
+</details>
+
+## 🧰 Tech Stack / Dependencies
+
+- [![Hapi](https://img.shields.io/badge/@hapi/hapi-v21.4.0-green)](https://www.npmjs.com/package/@hapi/hapi)
+- [![Inert](https://img.shields.io/badge/@hapi/inert-v7.1.0-green)](https://www.npmjs.com/package/@hapi/inert)
+- [![JWT](https://img.shields.io/badge/@hapi/jwt-v3.2.0-green)](https://www.npmjs.com/package/@hapi/jwt)
+- [![bcrypt](https://img.shields.io/badge/bcrypt-v6.0.0-orange)](https://www.npmjs.com/package/bcrypt)
+- [![Cloudinary](https://img.shields.io/badge/cloudinary-v2.7.0-lightgrey)](https://www.npmjs.com/package/cloudinary)
+- [![datauri](https://img.shields.io/badge/datauri-v4.1.0-lightgrey)](https://www.npmjs.com/package/datauri)
+- [![dotenv](https://img.shields.io/badge/dotenv-v17.0.0-yellowgreen)](https://www.npmjs.com/package/dotenv)
+- [![joi](https://img.shields.io/badge/joi-v17.13.3-yellow)](https://www.npmjs.com/package/joi)
+- [![nanoid](https://img.shields.io/badge/nanoid-v3.3.11-lightblue)](https://www.npmjs.com/package/nanoid)
+- [![node-pg-migrate](https://img.shields.io/badge/node--pg--migrate-v8.0.3-blueviolet)](https://www.npmjs.com/package/node-pg-migrate)
+- [![pg](https://img.shields.io/badge/pg-v8.16.3-blue)](https://www.npmjs.com/package/pg)
+
+## 🛎️ Tools
+
+- **VSCode** sebagai kode editor
+- **HeidiSQL** untuk mengelola dan memantau database secara visual
+- **Postman** untuk menguji endpoint API
+- **GitHub** sebagai version control
+
+## 👨‍💻 Pengembang
+
+[Husen Malik](https://github.com/husenmalik7)
+
+## 🖥️ Assistant
+
+- [chatGPT](https://chat.openai.com/)
