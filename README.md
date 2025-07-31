@@ -12,6 +12,7 @@
   - [🗃️ ERD / Struktur Tabel](#️-erd--struktur-tabel)
   - [🌐 API Base URL / Deployment](#-api-base-url--deployment)
   - [📖 API Documentation](#-api-documentation)
+  - [📁 Struktur Folder](#-struktur-folder)
 
 ---
 
@@ -35,7 +36,7 @@
 ## 🧮 Formula Achievement
 
 <details>
-<summary>Formula achievement</summary>
+<summary>Formula achievement (click me)</summary>
 
 | No  | Name                | Description                                                             | Condition Type | Condition Value |
 | --- | ------------------- | ----------------------------------------------------------------------- | -------------- | --------------- |
@@ -59,7 +60,7 @@
 ## 🗃️ ERD / Struktur Tabel
 
 <details>
-<summary>ERD</summary>
+<summary>ERD (click me)</summary>
 
 ![Tampilan Awal](./ERD.png)
 
@@ -76,4 +77,14 @@ Deployment menggunakan [railway](https://railway.com/) free tier
 
 ## 📖 API Documentation
 
-https://documenter.getpostman.com/view/9925894/2sB3B8tDZV
+[Postman](https://documenter.getpostman.com/view/9925894/2sB3B8tDZV)
+
+## 📁 Struktur Folder
+
+```bash
+src/
+├── controllers/
+├── models/
+├── routes/
+└── ...
+```
