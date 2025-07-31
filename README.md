@@ -1,5 +1,7 @@
 # 🔎 Ketemukan-BE
 
+---
+
 ## 📑 Daftar Isi
 
 - [🔎 Ketemukan-BE](#-ketemukan-be)
@@ -8,7 +10,8 @@
   - [🧮 Formula Point](#-formula-point)
   - [🧮 Formula Achievement](#-formula-achievement)
   - [🗃️ ERD / Struktur Tabel](#️-erd--struktur-tabel)
-  - [🌐 API Base URL](#-api-base-url)
+  - [🌐 API Base URL / Deployment](#-api-base-url--deployment)
+  - [📖 API Documentation](#-api-documentation)
 
 ---
 
@@ -31,6 +34,9 @@
 
 ## 🧮 Formula Achievement
 
+<details>
+<summary>Formula achievement</summary>
+
 | No  | Name                | Description                                                             | Condition Type | Condition Value |
 | --- | ------------------- | ----------------------------------------------------------------------- | -------------- | --------------- |
 | 1   | Bounty Hunter       | Kamu sudah berhasil menemukan 10 barang — pencarianmu dimulai!          | found_items    | 10              |
@@ -48,8 +54,26 @@
 | 13  | Keyboard Hero       | Menolong tanpa jubah, cuma modal keyboard dan niat baik 💻              | comments       | 75              |
 | 14  | Golden Citizen      | Kamu layak dikasih penghargaan RT. Seratus komentar penuh empati 🥇     | comments       | 100             |
 
+</details>
+
 ## 🗃️ ERD / Struktur Tabel
 
-Berikan diagram ERD atau struktur tabel database.
+<details>
+<summary>ERD</summary>
 
-## 🌐 API Base URL
+![Tampilan Awal](./ERD.png)
+
+</details>
+
+## 🌐 API Base URL / Deployment
+
+Deployment menggunakan [railway](https://railway.com/) free tier
+
+| Base URL                                             | Owner                                         | Status                      |
+| ---------------------------------------------------- | --------------------------------------------- | --------------------------- |
+| https://ketemukan-be-production-7e9f.up.railway.app/ | [husenmalik8](https://github.com/husenmalik8) | Died 😵                     |
+| https://ketemukan-be-production.up.railway.app/      | [husenmalik9](https://github.com/husenmalik9) | Active 🙂 (Until 25 August) |
+
+## 📖 API Documentation
+
+https://documenter.getpostman.com/view/9925894/2sB3B8tDZV
