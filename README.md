@@ -13,6 +13,14 @@
   - [🌐 API Base URL / Deployment](#-api-base-url--deployment)
   - [📖 API Documentation](#-api-documentation)
   - [📁 Struktur Folder](#-struktur-folder)
+  - [🛠️ Instalasi \& Konfigurasi](#️-instalasi--konfigurasi)
+    - [1. Clone repository ini](#1-clone-repository-ini)
+    - [2. Install repository](#2-install-repository)
+    - [3. Buat database postgreSQL (misal dengan akun postgres) _pertama login terlebih dahulu dan masukan password_](#3-buat-database-postgresql-misal-dengan-akun-postgres-pertama-login-terlebih-dahulu-dan-masukan-password)
+    - [4. Buat database postgreSQL (misal dengan nama database = ketemukan\_v2\_2)](#4-buat-database-postgresql-misal-dengan-nama-database--ketemukan_v2_2)
+    - [5. Jalankan migrasi](#5-jalankan-migrasi)
+    - [6. Jalankan server via start atau development](#6-jalankan-server-via-start-atau-development)
+  - [🔐 ENV](#-env)
 
 ---
 
@@ -95,30 +103,38 @@ Deployment menggunakan [railway](https://railway.com/) free tier
 │   └── validator/           # Validasi input dari pengguna
 ```
 
-🛠️ Instalasi & Konfigurasi
+![Status](https://img.shields.io/badge/status-active-brightgreen)
+![Node.js](https://img.shields.io/badge/node.js-v18.17.0-blue)
+![License](https://img.shields.io/badge/license-MIT-yellow)
+[![Status](https://img.shields.io/badge/status-active-brightgreen)](https://example.com)
 
-1. Clone repository ini
+## 🛠️ Instalasi & Konfigurasi
+
+<details>
+<summary>Instalasi & Konfigurasi (click me)</summary>
+
+### 1. Clone repository ini
 
 ```
 git clone https://github.com/husenmalik9/ketemukan-be.git
 
 ```
 
-2. Install repository
+### 2. Install repository
 
 ```
 npm install
 
 ```
 
-3. Buat database postgreSQL (misal dengan akun postgres) _pertama login terlebih dahulu dan masukan password_
+### 3. Buat database postgreSQL (misal dengan akun postgres) _pertama login terlebih dahulu dan masukan password_
 
 ```
 psql --username postgres
 
 ```
 
-4. Buat database postgreSQL (misal dengan nama database = ketemukan_v2_2)
+### 4. Buat database postgreSQL (misal dengan nama database = ketemukan_v2_2)
 
 ```
 CREATE DATABASE ketemukan_v2_2;
@@ -127,16 +143,44 @@ ALTER DATABASE ketemukan_v2_2 OWNER TO developer;
 
 ```
 
-5. Jalankan migrasi
+### 5. Jalankan migrasi
 
 ```
 npm run migrate up
 ```
 
-6. Jalankan server via start atau development
+### 6. Jalankan server via start atau development
 
 ```
 npm run start
 or
 npm run dev
+```
+
+</details>
+
+## 🔐 ENV
+
+Buat file .env dengan format sebagai berikut:
+
+```
+# server configuration
+HOST=
+PORT=
+
+# node-postgres configuration
+PGUSER=
+PGPASSWORD=
+PGDATABASE=
+PGHOST=
+PGPORT=
+
+ACCESS_TOKEN_KEY=
+REFRESH_TOKEN_KEY=
+ACCESS_TOKEN_AGE=
+
+CLOUDINARY_CLOUD_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=
+
 ```
