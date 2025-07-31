@@ -9,7 +9,16 @@ class FoundsHandler {
   postFoundHandler = async (request, h) => {
     this._validator.validateFoundPayload(request.payload);
 
-    const { title, shortDesc, description, foundDate, categoryId, locationId } = request.payload;
+    const {
+      title,
+      shortDesc,
+      description,
+      foundDate,
+      categoryId,
+      locationId,
+      longitude,
+      latitude,
+    } = request.payload;
     const { id: userId } = request.auth.credentials;
 
     const foundId = await this._service.addFound({
@@ -20,6 +29,8 @@ class FoundsHandler {
       userId,
       categoryId,
       locationId,
+      longitude,
+      latitude,
     });
 
     await this._pointService.addPoint(50, userId);

@@ -10,14 +10,24 @@ class LostsService {
     this._pool = new Pool();
   }
 
-  async addLost({ title, shortDesc, description, lostDate, userId, categoryId, locationId }) {
+  async addLost({
+    title,
+    shortDesc,
+    description,
+    lostDate,
+    userId,
+    categoryId,
+    locationId,
+    longitude,
+    latitude,
+  }) {
     const id = `lost-${nanoid(16)}`;
     const createdAt = new Date().toISOString();
     const updatedAt = createdAt;
     const status = 'lost';
 
     const query = {
-      text: 'INSERT INTO lost_items(id, title, short_desc, description, lost_date, status, created_at, updated_at, user_id, category_id, location_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING id',
+      text: 'INSERT INTO lost_items(id, title, short_desc, description, lost_date, status, created_at, updated_at, user_id, category_id, location_id, longitude, latitude) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING id',
       values: [
         id,
         title,
@@ -30,6 +40,8 @@ class LostsService {
         userId,
         categoryId,
         locationId,
+        longitude,
+        latitude,
       ],
     };
 

@@ -7,6 +7,8 @@ const FoundPayloadSchema = Joi.object({
   foundDate: Joi.string().required(),
   categoryId: Joi.string().required(),
   locationId: Joi.string().required(),
+  longitude: Joi.string().allow(null),
+  latitude: Joi.string().allow(null),
 });
 
 const PutFoundPayloadSchema = Joi.object({
