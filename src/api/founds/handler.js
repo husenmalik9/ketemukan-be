@@ -9,7 +9,16 @@ class FoundsHandler {
   postFoundHandler = async (request, h) => {
     this._validator.validateFoundPayload(request.payload);
 
-    const { title, shortDesc, description, foundDate, categoryId, locationId } = request.payload;
+    const {
+      title,
+      shortDesc,
+      description,
+      foundDate,
+      categoryId,
+      locationId,
+      longitude,
+      latitude,
+    } = request.payload;
     const { id: userId } = request.auth.credentials;
 
     const foundId = await this._service.addFound({
@@ -20,6 +29,8 @@ class FoundsHandler {
       userId,
       categoryId,
       locationId,
+      longitude,
+      latitude,
     });
 
     await this._pointService.addPoint(50, userId);
@@ -53,9 +64,9 @@ class FoundsHandler {
   };
 
   getFoundsHandler = async (request) => {
-    const { title = '' } = request.query;
+    const { title = '', location = '', category = '' } = request.query;
 
-    const founds = await this._service.getFounds(title);
+    const founds = await this._service.getFounds(`%${title}%`, location, category);
 
     return {
       status: 'success',

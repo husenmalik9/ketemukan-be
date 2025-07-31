@@ -9,7 +9,8 @@ class LostsHandler {
   postLostHandler = async (request, h) => {
     this._validator.validateLostPayload(request.payload);
 
-    const { title, shortDesc, description, lostDate, categoryId, locationId } = request.payload;
+    const { title, shortDesc, description, lostDate, categoryId, locationId, longitude, latitude } =
+      request.payload;
     const { id: userId } = request.auth.credentials;
 
     const lostId = await this._service.addLost({
@@ -20,6 +21,8 @@ class LostsHandler {
       userId,
       categoryId,
       locationId,
+      longitude,
+      latitude,
     });
 
     await this._pointService.addPoint(20, userId);
@@ -53,9 +56,9 @@ class LostsHandler {
   };
 
   getLostsHandler = async (request) => {
-    const { title = '' } = request.query;
+    const { title = '', location = '', category = '' } = request.query;
 
-    const losts = await this._service.getLosts(title);
+    const losts = await this._service.getLosts(`%${title}%`, location, category);
 
     return {
       status: 'success',

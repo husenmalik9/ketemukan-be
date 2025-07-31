@@ -10,14 +10,24 @@ class LostsService {
     this._pool = new Pool();
   }
 
-  async addLost({ title, shortDesc, description, lostDate, userId, categoryId, locationId }) {
+  async addLost({
+    title,
+    shortDesc,
+    description,
+    lostDate,
+    userId,
+    categoryId,
+    locationId,
+    longitude,
+    latitude,
+  }) {
     const id = `lost-${nanoid(16)}`;
     const createdAt = new Date().toISOString();
     const updatedAt = createdAt;
     const status = 'lost';
 
     const query = {
-      text: 'INSERT INTO lost_items(id, title, short_desc, description, lost_date, status, created_at, updated_at, user_id, category_id, location_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING id',
+      text: 'INSERT INTO lost_items(id, title, short_desc, description, lost_date, status, created_at, updated_at, user_id, category_id, location_id, longitude, latitude) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING id',
       values: [
         id,
         title,
@@ -30,6 +40,8 @@ class LostsService {
         userId,
         categoryId,
         locationId,
+        longitude,
+        latitude,
       ],
     };
 
@@ -95,9 +107,7 @@ class LostsService {
     }
   }
 
-  async getLosts(title) {
-    const condition = title ? `WHERE lost_items.title ILIKE '%${title}%'` : '';
-
+  async getLosts(title, location, category) {
     const query = {
       text: `SELECT 
                 lost_items.id,
@@ -113,8 +123,12 @@ class LostsService {
               FROM lost_items
               LEFT JOIN categories ON lost_items.category_id = categories.id
               LEFT JOIN locations ON lost_items.location_id = locations.id
-              ${condition}
+
+              WHERE ($1 = '' OR lost_items.title ILIKE $1)
+              AND ($2 = '' OR lost_items.location_id = $2)
+              AND ($3 = '' OR lost_items.category_id = $3)
               `,
+      values: [title, location, category],
     };
 
     const result = await this._pool.query(query).catch((error) => {
