@@ -134,9 +134,9 @@ class FoundsService {
               LEFT JOIN categories ON found_items.category_id = categories.id
               LEFT JOIN locations ON found_items.location_id = locations.id
 
-              WHERE ($1 = '' OR lost_items.title ILIKE $1)
-              AND ($2 = '' OR lost_items.location_id = $2)
-              AND ($3 = '' OR lost_items.category_id = $3)
+              WHERE ($1 = '' OR found_items.title ILIKE $1)
+              AND ($2 = '' OR found_items.location_id = $2)
+              AND ($3 = '' OR found_items.category_id = $3)
               `,
       values: [title, location, category],
     };
