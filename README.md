@@ -4,27 +4,19 @@
 
 ## 📑 Daftar Isi
 
-- [🔎 Ketemukan-BE](#-ketemukan-be)
-  - [📑 Daftar Isi](#-daftar-isi)
-  - [🚀 Fitur Utama](#-fitur-utama)
-  - [🧮 Formula Point](#-formula-point)
-  - [🧮 Formula Achievement](#-formula-achievement)
-  - [🗃️ ERD / Struktur Tabel](#️-erd--struktur-tabel)
-  - [🌐 API Base URL / Deployment](#-api-base-url--deployment)
-  - [📖 API Documentation](#-api-documentation)
-  - [📁 Struktur Folder](#-struktur-folder)
-  - [🛠️ Instalasi \& Konfigurasi](#️-instalasi--konfigurasi)
-    - [1. Clone repository ini](#1-clone-repository-ini)
-    - [2. Install repository](#2-install-repository)
-    - [3. Buat database postgreSQL (misal dengan akun postgres) _pertama login terlebih dahulu dan masukan password_](#3-buat-database-postgresql-misal-dengan-akun-postgres-pertama-login-terlebih-dahulu-dan-masukan-password)
-    - [4. Buat database postgreSQL (misal dengan nama database = ketemukan\_v2\_2)](#4-buat-database-postgresql-misal-dengan-nama-database--ketemukan_v2_2)
-    - [5. Jalankan migrasi](#5-jalankan-migrasi)
-    - [6. Jalankan server via start atau development](#6-jalankan-server-via-start-atau-development)
-  - [🔐 ENV](#-env)
-  - [🧰 Tech Stack / Dependencies](#-tech-stack--dependencies)
-  - [🛎️ Tools](#️-tools)
-  - [👨‍💻 Pengembang](#-pengembang)
-  - [🖥️ Assistant](#️-assistant)
+- [🚀 Fitur Utama](#-fitur-utama)
+- [🧮 Formula Point](#-formula-point)
+- [🧮 Formula Achievement](#-formula-achievement)
+- [🗃️ ERD / Struktur Tabel](#️-erd--struktur-tabel)
+- [🌐 API Base URL / Deployment](#-api-base-url--deployment)
+- [📖 API Documentation](#-api-documentation)
+- [📁 Struktur Folder](#-struktur-folder)
+- [🛠️ Instalasi \& Konfigurasi](#️-instalasi--konfigurasi)
+- [🔐 ENV](#-env)
+- [🧰 Tech Stack / Dependencies](#-tech-stack--dependencies)
+- [🛎️ Tools](#️-tools)
+- [👨‍💻 Pengembang](#-pengembang)
+- [🖥️ Assistant](#️-assistant)
 
 ---
 
@@ -216,4 +208,4 @@ CLOUDINARY_API_SECRET=
 
 ## 🖥️ Assistant
 
-- [chatGPT](https://chat.openai.com/)
+[chatGPT](https://chat.openai.com/)
