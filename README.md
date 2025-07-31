@@ -16,7 +16,6 @@
 - [🧰 Tech Stack / Dependencies](#-tech-stack--dependencies)
 - [🛎️ Tools](#️-tools)
 - [👨‍💻 Pengembang](#-pengembang)
-- [🖥️ Assistant](#️-assistant)
 
 ---
 
@@ -205,7 +204,3 @@ CLOUDINARY_API_SECRET=
 ## 👨‍💻 Pengembang
 
 [Husen Malik](https://github.com/husenmalik7)
-
-## 🖥️ Assistant
-
-[chatGPT](https://chat.openai.com/)
