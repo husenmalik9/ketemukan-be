@@ -77,14 +77,66 @@ Deployment menggunakan [railway](https://railway.com/) free tier
 
 ## 📖 API Documentation
 
-[Postman](https://documenter.getpostman.com/view/9925894/2sB3B8tDZV)
+[Documentation](https://documenter.getpostman.com/view/9925894/2sB3B8tDZV)
 
 ## 📁 Struktur Folder
 
-```bash
-src/
-├── controllers/
-├── models/
-├── routes/
-└── ...
+```
+.
+├── migration/               # File migrasi database
+├── src/
+│   ├── api/                 # Handler & route terkait API
+│   ├── cloudinary/          # Konfigurasi cloudinary
+│   ├── exceptions/          # Kumpulan custom error handling
+│   ├── services/
+│   │   ├── postgres/        # Service untuk PostgreSQL
+│   │   └── storage/         # Service untuk cloudinary
+│   ├── tokenize/            # Utility untuk JWT
+│   └── validator/           # Validasi input dari pengguna
+```
+
+🛠️ Instalasi & Konfigurasi
+
+1. Clone repository ini
+
+```
+git clone https://github.com/husenmalik9/ketemukan-be.git
+
+```
+
+2. Install repository
+
+```
+npm install
+
+```
+
+3. Buat database postgreSQL (misal dengan akun postgres) _pertama login terlebih dahulu dan masukan password_
+
+```
+psql --username postgres
+
+```
+
+4. Buat database postgreSQL (misal dengan nama database = ketemukan_v2_2)
+
+```
+CREATE DATABASE ketemukan_v2_2;
+GRANT ALL ON DATABASE ketemukan_v2_2 TO developer;
+ALTER DATABASE ketemukan_v2_2 OWNER TO developer;
+
+```
+
+5. Jalankan migrasi
+
+```
+npm run migrate up
+```
+
+6. Jalankan server via start atau development
+
+```
+npm run start
+or
+npm run dev
 ```
